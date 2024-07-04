@@ -1,6 +1,4 @@
-
 import React, { useRef, useState, } from 'react';
-
 const AudioRecorder = () => {
   const [recordedUrl, setRecordedUrl] = useState('');
   const [isRecording, setIsRecording] = useState(false);
