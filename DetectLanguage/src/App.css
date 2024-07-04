@@ -1,0 +1,62 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+
+
+.Translate{
+  background-color: rgb(10, 94, 10);
+  border-radius: 20px;
+  color: white;
+  position: absolute;
+  left:400px;
+  bottom: 220px;
+  padding: 5px;
+
+}
+.TextToBeTranslated{
+    margin-right: 10px;
+    position: relative;
+
+  }
+
+
+  .translatedText{
+    padding: 10px;
+    position: relative;
+    bottom: 30px;
+  }
+.textArea{
+  display: flex;
+  flex-direction: row;
+  
+}
+
+
+
+ textarea{
+  border-radius: 10px;
+  border: 10px solid rgb(12, 68, 38);
+  background-color: rgb(21, 4, 4);
+  color: white;
+ }
+ select{
+  margin-top: -200px;
+  border-radius: 20px;
+  border: 2px solid greenyellow;
+  position: absolute;
+  bottom: 250px;
+  background-color: black;
+  color: white;
+
+ }
+ .translatedText button{
+  background-color: blanchedalmond;
+  padding: 0px;
+  margin: 10px;
+ 
+ 
+ }

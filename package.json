@@ -1,0 +1,20 @@
+{
+	"dependencies": {
+		"nodemon": "^3.1.4",
+		"express": "^4.19.2",
+		"body-parser": "^1.20.2",
+		"cors": "^2.8.5",
+		"express-validator": "^7.1.0"
+	},
+	"name": "language-recognition",
+	"version": "1.0.0",
+	"main": "index.js",
+	"devDependencies": {},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"description": ""
+}
