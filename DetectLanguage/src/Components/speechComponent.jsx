@@ -21,6 +21,7 @@ const AudioRecorder = () => {
         if (e.data.size > 0) {
           chunks.current.push(e.data);
         }
+       
         
       };
 
