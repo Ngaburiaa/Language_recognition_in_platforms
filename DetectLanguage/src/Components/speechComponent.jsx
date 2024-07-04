@@ -1,6 +1,4 @@
-
 import React, { useRef, useState, } from 'react';
-
 const AudioRecorder = () => {
   const [recordedUrl, setRecordedUrl] = useState('');
   const [isRecording, setIsRecording] = useState(false);
@@ -23,8 +21,11 @@ const AudioRecorder = () => {
         if (e.data.size > 0) {
           chunks.current.push(e.data);
         }
+       
+        
       };
 
+      
       mediaRecorder.current.onstop = () => {
         const recordedBlob = new Blob(chunks.current, { type: 'audio/webm' });
         const url = URL.createObjectURL(recordedBlob);
