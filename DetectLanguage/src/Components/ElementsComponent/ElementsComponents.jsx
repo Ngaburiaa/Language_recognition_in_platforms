@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function ElementsComponents() {
+function ElementsComponents({transcript}) {
   const [textToBeTranslated, setTextToBeTranslated] = useState("");
   const [translatedText, setTranslatedText] = useState("");
   const [targetLanguage, setTargetLanguage] = useState("en");
@@ -9,7 +9,7 @@ function ElementsComponents() {
     const myHeaders = new Headers();
     myHeaders.append("apikey", "A3T3YDQSBFT3fbqM0puqZ9ozVcU3stSR");
 
-    const raw = textToBeTranslated;
+    const raw = textToBeTranslated||transcript;
 
     const requestOptions = {
       method: "POST",
@@ -79,7 +79,7 @@ function ElementsComponents() {
           id="textArea"
           rows="10"
           cols="50"
-          value={textToBeTranslated}
+          value={textToBeTranslated||transcript}
           onChange={handleTextChange}
         ></textarea>
       </div>
