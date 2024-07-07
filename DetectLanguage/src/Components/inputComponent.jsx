@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import ElementsComponents from "./ElementsComponent/ElementsComponents";
 import AudioRecorder from "./speechComponent";
 
-
 function InputComponent() {
-  return <div className="inputFiled">
-    <ElementsComponents/>
-    <AudioRecorder/>
-   
-  </div>;
+  const [transcript, setTranscript] = useState("");
+
+  return (
+    <div className="inputFiled">
+      <ElementsComponents transcript={transcript} />
+      <AudioRecorder transcript={transcript} setTranscript={setTranscript} />
+    </div>
+  );
 }
 
 export default InputComponent;

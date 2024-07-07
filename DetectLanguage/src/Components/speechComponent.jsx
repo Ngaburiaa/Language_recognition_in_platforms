@@ -1,15 +1,43 @@
-import React, { useRef, useState, } from 'react';
-const AudioRecorder = () => {
-  const [recordedUrl, setRecordedUrl] = useState('');
+import React, { useRef, useState, useEffect } from "react";
+
+const AudioRecorder = ({transcript, setTranscript}) => {
+  const [recordedUrl, setRecordedUrl] = useState("");
   const [isRecording, setIsRecording] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
-  const [transcript, setTranscript] = useState('');
-  const [audioFile, setAudioFile] = useState(null);
+  const [transcriptId, setTranscriptId] = useState(null);
+  const [isTranscribing, setIsTranscribing] = useState(false);
   const mediaStream = useRef(null);
   const mediaRecorder = useRef(null);
   const chunks = useRef([]);
   const timerInterval = useRef(null);
   const audioPlayer = useRef(null);
+
+  useEffect(() => {
+    const getTranscript = async () => {
+      if (!transcriptId) return;
+
+      const apiKey = "6b9c0fa6daaa4d3dbbd2fc31c1cf0bb4";
+      const response = await fetch(
+        `https://api.assemblyai.com/v2/transcript/${transcriptId}`,
+        {
+          headers: { authorization: apiKey },
+        }
+      );
+      const results = await response.json();
+
+      if (results.status === "completed") {
+        setTranscript(results.text);
+        setIsTranscribing(false);
+      } else if (results.status === "failed") {
+        console.error("Transcription failed");
+        setIsTranscribing(false);
+      } else {
+        setTimeout(getTranscript, 5000);
+      }
+    };
+
+    getTranscript();
+  }, [transcriptId]);
 
   const startRecording = async () => {
     try {
@@ -21,85 +49,81 @@ const AudioRecorder = () => {
         if (e.data.size > 0) {
           chunks.current.push(e.data);
         }
-               
       };
 
-
-      
-      
       mediaRecorder.current.onstop = () => {
-        const recordedBlob = new Blob(chunks.current, { type: 'audio/webm' });
+        const recordedBlob = new Blob(chunks.current, { type: "audio/webm" });
         const url = URL.createObjectURL(recordedBlob);
         setRecordedUrl(url);
         chunks.current = [];
         clearInterval(timerInterval.current);
         setElapsedTime(0);
-        if (audioPlayer.current) {
-          audioPlayer.current.currentTime = 0;
-          audioPlayer.current.pause();
-        }
-        // Save the audio file
-        const file = new File([recordedBlob], 'audio.webm', {
-          type: 'audio/webm',
+
+        const file = new File([recordedBlob], "audio.webm", {
+          type: "audio/webm",
         });
-        setAudioFile(file);
-        // Transcribe audio immediately after recording stops
         transcribeAudio(file);
       };
 
       mediaRecorder.current.start();
       setIsRecording(true);
       timerInterval.current = setInterval(() => {
-        setElapsedTime((prevTime) => {
-          if (audioPlayer.current) {
-            audioPlayer.current.currentTime = prevTime + 1;
-          }
-          return prevTime + 1;
-        });
+        setElapsedTime((prevTime) => prevTime + 1);
       }, 1000);
     } catch (error) {
-      console.error('Error accessing microphone:', error);
+      console.error("Error accessing microphone:", error);
     }
   };
 
   const stopRecording = () => {
-    if (mediaRecorder.current && mediaRecorder.current.state === 'recording') {
+    if (mediaRecorder.current && mediaRecorder.current.state === "recording") {
       mediaRecorder.current.stop();
       setIsRecording(false);
     }
     if (mediaStream.current) {
-      mediaStream.current.getTracks().forEach((track) => track.stop());
+      mediaStream.current.getTracks().map((track) => track.stop());
     }
   };
 
   const transcribeAudio = async (file) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    const options = {
+    setIsTranscribing(true);
+    const apiKey = "6b9c0fa6daaa4d3dbbd2fc31c1cf0bb4";
+    const response = await fetch("https://api.assemblyai.com/v2/upload", {
       method: "POST",
       headers: {
-        'x-gladia-key': 'e583fb74-615b-45d8-90f3-9ddbe89eda74',
+        authorization: apiKey,
       },
-      body: formData,
-    };
-    fetch('https://api.gladia.io/v2/upload', options)
-      .then(response => response.json())
-      .then(response => {
-        console.log(response);
-        setTranscript(response.transcript || 'Transcription failed');
-      })
-      .catch(err => console.error(err));
+      body: file,
+    });
+
+    const { upload_url } = await response.json();
+
+    const transcriptResponse = await fetch(
+      "https://api.assemblyai.com/v2/transcript",
+      {
+        method: "POST",
+        headers: {
+          authorization: apiKey,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ audio_url: upload_url }),
+      }
+    );
+
+    const transcriptData = await transcriptResponse.json();
+    setTranscriptId(transcriptData.id);
   };
 
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
   return (
-    <div>
-      <audio ref={audioPlayer} controls src={recordedUrl} />
+    <div className="divAudio">
+     
+
       <div>
         <button onClick={startRecording} disabled={isRecording}>
           Start
@@ -108,19 +132,25 @@ const AudioRecorder = () => {
           Stop
         </button>
       </div>
-      <div style={{ textAlign: 'center', marginTop: '10px' }}>
+      <div style={{ textAlign: "center", marginTop: "10px" }}>
         {isRecording && <p>Recording... {formatTime(elapsedTime)}</p>}
       </div>
-      <div style={{ marginTop: '20px' }}>
+      <div style={{ marginTop: "20px" }}>
         <h3>Transcription</h3>
-        <p>{transcript}</p>
+        {isTranscribing ? (
+          <p><img  src="https://icons8.com/preloaders/preloaders/1488/Iphone-spinner-2.gif" alt="loading"/></p>
+        ) : (
+          <p>{transcript}</p>
+        )}
+         <div>
+        {recordedUrl && (
+          <audio ref={audioPlayer} src={recordedUrl} controls></audio>
+        )}
+      </div>
       </div>
     </div>
   );
 };
 
 export default AudioRecorder;
-
-
-
 

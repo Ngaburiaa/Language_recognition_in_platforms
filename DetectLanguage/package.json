@@ -13,6 +13,7 @@
     "@prisma/client": "^5.16.1",
     "assemblyai": "^4.5.0",
     "axios": "^1.7.2",
+    "dotenv": "^16.4.5",
     "mic-recorder-to-mp3": "^2.2.2",
     "prisma": "^5.16.1",
     "react": "^18.3.1",
