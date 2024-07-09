@@ -3,6 +3,7 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background-color: antiquewhite;
 }
 
 
@@ -42,8 +43,8 @@
 
  textarea{
   border-radius: 10px;
-  border: 10px solid rgb(12, 68, 38);
-  background-color: rgb(21, 4, 4);
+  border: 10px solid rgb(143, 201, 170);
+  background-color: rgb(37, 10, 10);
   color: white;
  }
  select{
@@ -62,4 +63,10 @@
   margin: 10px;
  
  
+ }
+
+ .button-upload{
+  background-color: black;
+  color: white;
+
  }

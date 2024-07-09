@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+// import FileUploader from "../FileUpload";
 
-function ElementsComponents({transcript}) {
+function ElementsComponents({ transcript }) {
   const [textToBeTranslated, setTextToBeTranslated] = useState("");
   const [translatedText, setTranslatedText] = useState("");
   const [targetLanguage, setTargetLanguage] = useState("en");
@@ -9,7 +10,7 @@ function ElementsComponents({transcript}) {
     const myHeaders = new Headers();
     myHeaders.append("apikey", "A3T3YDQSBFT3fbqM0puqZ9ozVcU3stSR");
 
-    const raw = textToBeTranslated||transcript;
+    const raw = textToBeTranslated || transcript;
 
     const requestOptions = {
       method: "POST",
@@ -31,7 +32,9 @@ function ElementsComponents({transcript}) {
   };
 
   const handleTextChange = (e) => {
-    setTextToBeTranslated(e.target.value);
+     
+    setTextToBeTranslated( e.target.value);
+  
   };
 
   const handleLanguageChange = (e) => {
@@ -79,12 +82,12 @@ function ElementsComponents({transcript}) {
           id="textArea"
           rows="10"
           cols="50"
-          value={textToBeTranslated||transcript}
+          value={textToBeTranslated || transcript}
           onChange={handleTextChange}
         ></textarea>
       </div>
       <button className="Translate" onClick={translateText}>
-        <i class="fa fa-language" aria-hidden="true"></i>Translate
+        <i className="fa fa-language" aria-hidden="true"></i>Translate
       </button>
       <br />
       <div className="translatedText">
@@ -111,13 +114,13 @@ function ElementsComponents({transcript}) {
         ></textarea>
         <br />
         <button onClick={copyToClipboard}>
-          <i class="fa fa-clone" aria-hidden="true"></i>
+          <i className="fa fa-clone" aria-hidden="true"></i>
         </button>
         <button onClick={downloadText}>
-          <i class="fa fa-download" aria-hidden="true"></i>
+          <i className="fa fa-download" aria-hidden="true"></i>
         </button>
         <button onClick={shareText}>
-          <i class="fa fa-share-alt" aria-hidden="true"></i>
+          <i className="fa fa-share-alt" aria-hidden="true"></i>
         </button>
       </div>
     </div>
