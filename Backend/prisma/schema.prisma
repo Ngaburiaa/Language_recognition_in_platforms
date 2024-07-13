@@ -7,5 +7,16 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+ 
 }
 
+
+model UserInfo{
+  id Int @id @default(autoincrement()) 
+  UserName String @unique
+  password String
+  email String
+  TextToBeTranslated String
+  TranslatedText String
+  
+  }

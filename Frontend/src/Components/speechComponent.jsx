@@ -154,8 +154,8 @@ const AudioRecorder = ({
               />
             </p>
           ) || <p>Network Failure</p>
-        ) : (
-          <p>{transcript}</p>
+        ) : ( 
+          <p>{transcript} </p>
         )}
         <div>
           {recordedUrl && (

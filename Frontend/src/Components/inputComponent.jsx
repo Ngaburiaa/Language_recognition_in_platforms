@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ElementsComponents from "./ElementsComponent/ElementsComponents";
 import AudioRecorder from "./speechComponent";
 import FileUploader from "./FileUpload";
+// import { Link } from "react-router-dom";
 
 function InputComponent() {
   const [transcript, setTranscript] = useState("");
@@ -22,6 +23,7 @@ function InputComponent() {
         setIsTranscribing={setIsTranscribing}
       />
     </div>
+    
   );
 }
 

@@ -48,7 +48,7 @@ const FileUploader = ({
       const transcriptionData = await transcriptionResponse.json();
       const { id: transcriptId } = transcriptionData;
 
-      const transcriptionReults = async () => {
+      const transcriptionResults = async () => {
         const response = await fetch(
           `https://api.assemblyai.com/v2/transcript/${transcriptId}`,
           {
@@ -62,18 +62,15 @@ const FileUploader = ({
         if (result.status === "completed") {
           setIsTranscribing(false);
           setTranscript(result.text);
-                  } else if (result.status === "failed") {
+          } else if (result.status === "failed") {
           setIsTranscribing(false);
           console.error("Transcription failed:", result.error);
         } else {
-        setTimeout(transcriptionReults, 5000);
+        setTimeout(transcriptionResults, 5000);
         }
       };
-
-      transcriptionReults();
-      setTranscript("")
-
-    } catch (error) {
+      transcriptionResults();
+     } catch (error) {
       console.error("Error uploading the file:", error);
     }
   };
