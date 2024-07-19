@@ -17,7 +17,9 @@ const Login = () => {
     try {
       const response = await axios.post('http://localhost:3000/login', userData)
       if (response.status === 200) {
-      navigate("/InputComponent");
+        
+        localStorage.setItem("UserName",JSON.stringify(userData.UserName))
+            navigate("/InputComponent");
       } else {
         alert("Incorrect username or password");
       }
@@ -27,8 +29,8 @@ const Login = () => {
   };
 
   return (
-    <>
-      <form onSubmit={handleLogin}>
+    <div className="LoginContainer">
+      <form onSubmit={handleLogin} className="login">
         <label htmlFor="UserName">User Name</label>
         <input
           type="text"
@@ -50,7 +52,7 @@ const Login = () => {
         <button type="submit">Login</button>
         <p>Don't have an account? <Link to="/SignUp">Sign Up</Link></p>
       </form>
-    </>
+    </div>
   );
 };
 

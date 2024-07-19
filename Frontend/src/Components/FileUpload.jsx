@@ -1,10 +1,6 @@
 import React, { useRef, useState } from "react";
 
-const FileUploader = ({
-   setTranscript,
-  isTranscribing,
-   setIsTranscribing,
-}) => {
+const FileUploader = ({ setTranscript, isTranscribing, setIsTranscribing }) => {
   const fileInput = useRef(null);
 
   const handleClick = () => {
@@ -13,12 +9,12 @@ const FileUploader = ({
 
   const handleChange = async (event) => {
     const fileUploaded = event.target.files[0];
-    console.log(fileUploaded);
 
     const formData = new FormData();
     formData.append("file", fileUploaded);
 
     try {
+      setIsTranscribing(true);
       const uploadResponse = await fetch(
         "https://api.assemblyai.com/v2/upload",
         {
@@ -49,6 +45,7 @@ const FileUploader = ({
       const { id: transcriptId } = transcriptionData;
 
       const transcriptionResults = async () => {
+        
         const response = await fetch(
           `https://api.assemblyai.com/v2/transcript/${transcriptId}`,
           {
@@ -62,15 +59,15 @@ const FileUploader = ({
         if (result.status === "completed") {
           setIsTranscribing(false);
           setTranscript(result.text);
-          } else if (result.status === "failed") {
+        } else if (result.status === "failed") {
           setIsTranscribing(false);
           console.error("Transcription failed:", result.error);
         } else {
-        setTimeout(transcriptionResults, 5000);
+          setTimeout(transcriptionResults, 5000);
         }
       };
       transcriptionResults();
-     } catch (error) {
+    } catch (error) {
       console.error("Error uploading the file:", error);
     }
   };
@@ -95,7 +92,7 @@ const FileUploader = ({
                   alt="loading"
                 />
               </p>
-            ) || <p>Network Failure</p>
+            ) 
           : null}
       </div>
     </>

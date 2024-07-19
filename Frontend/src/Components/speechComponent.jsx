@@ -1,50 +1,51 @@
 import React, { useRef, useState, useEffect } from "react";
-const AudioRecorder = ({
-  transcript,
-  setTranscript,
-  isTranscribing,
-  setIsTranscribing,
-}) => {
+
+
+const AudioRecorder = ({transcript, setTranscript, isTranscribing, setIsTranscribing,}) => {
   const [recordedUrl, setRecordedUrl] = useState("");
   const [isRecording, setIsRecording] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [transcriptId, setTranscriptId] = useState(null);
+  const [networkError, setNetworkError] = useState(null); 
   const mediaStream = useRef(null);
   const mediaRecorder = useRef(null);
   const chunks = useRef([]);
   const timerInterval = useRef(null);
   const audioPlayer = useRef(null);
- 
+
   const apiKey = "6b9c0fa6daaa4d3dbbd2fc31c1cf0bb4";
 
   useEffect(() => {
-    const getTranscript = async () => {
-      try {
-        if (!transcriptId) return;
-       
-        const response = await fetch(
-          `https://api.assemblyai.com/v2/transcript/${transcriptId}`,
-          {
-            headers: { authorization: apiKey },
-          }
-        );
-        const results = await response.json();
+    if (transcriptId) {
+      getTranscript();
+    }
+  }, [transcriptId]);
 
-        if (results.status === "completed") {
-          setTranscript(results.text);
-          setIsTranscribing(false);
-        } else if (results.status === "failed") {
-          console.error("Transcription failed");
-          setIsTranscribing(false);
-        } else {
-          setTimeout(getTranscript, 5000);
+  const getTranscript = async () => {
+    try {
+      const response = await fetch(
+        `https://api.assemblyai.com/v2/transcript/${transcriptId}`,
+        {
+          headers: { authorization: apiKey },
         }
-      } catch (error) {
-        console.error("Network failure");
+      );
+      const results = await response.json();
+
+      if (results.status === "completed") {
+        setTranscript(results.text);
+        setIsTranscribing(false);
+        setNetworkError(null); 
+      } else if (results.status === "failed") {
+        setNetworkError("Transcription failed.");
+        setIsTranscribing(false);
+      } else {
+        setTimeout(getTranscript, 5000);
       }
-    };
-    getTranscript();
-  }, []);
+    } catch (error) {
+     setNetworkError("Network failure. Try again later.");
+      setIsTranscribing(false); 
+    }
+  };
 
   const startRecording = async () => {
     try {
@@ -78,7 +79,8 @@ const AudioRecorder = ({
         setElapsedTime((prevTime) => prevTime + 1);
       }, 1000);
     } catch (error) {
-      console.error("Error accessing microphone:", error);
+      setNetworkError("Error accessing microphone.");
+      setIsTranscribing(false);
     }
   };
 
@@ -88,14 +90,14 @@ const AudioRecorder = ({
       setIsRecording(false);
     }
     if (mediaStream.current) {
-      mediaStream.current.getTracks().map((track) => track.stop());
+      mediaStream.current.getTracks().forEach((track) => track.stop());
     }
   };
 
   const transcribeAudio = async (file) => {
     try {
       setIsTranscribing(true);
-            const response = await fetch("https://api.assemblyai.com/v2/upload", {
+      const response = await fetch("https://api.assemblyai.com/v2/upload", {
         method: "POST",
         headers: {
           authorization: apiKey,
@@ -120,7 +122,21 @@ const AudioRecorder = ({
       const transcriptData = await transcriptResponse.json();
       setTranscriptId(transcriptData.id);
     } catch (error) {
-      console.error("Network failure");
+
+      setNetworkError("Network failure. Try again later.");
+      setIsTranscribing(false);
+    }
+  };
+
+  const handleRetry = () => {
+    setNetworkError(null); 
+    if (transcriptId) {
+      getTranscript();
+    } else if (recordedUrl) {
+      const file = new File([recordedUrl], "audio.webm", {
+        type: "audio/webm",
+      });
+      transcribeAudio(file);
     }
   };
 
@@ -145,17 +161,23 @@ const AudioRecorder = ({
       </div>
       <div style={{ marginTop: "20px" }}>
         <h3>Transcription Results</h3>
+        {networkError && (
+          <p style={{ color: "red" }}>
+            {networkError} <br />
+            <button onClick={handleRetry}>
+              <i className="fa fa-refresh" aria-hidden="true"></i> Retry
+            </button>
+          </p>
+        )}
         {isTranscribing ? (
-          (
-            <p>
-              <img
-                src="https://icons8.com/preloaders/preloaders/1488/Iphone-spinner-2.gif"
-                alt="loading"
-              />
-            </p>
-          ) || <p>Network Failure</p>
-        ) : ( 
-          <p>{transcript} </p>
+          <p>
+            <img
+              src="https://icons8.com/preloaders/preloaders/1488/Iphone-spinner-2.gif"
+              alt="loading"
+            />
+          </p>
+        ) : (
+          <p>{transcript}</p>
         )}
         <div>
           {recordedUrl && (

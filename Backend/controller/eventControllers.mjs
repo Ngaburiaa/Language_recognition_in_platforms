@@ -41,39 +41,34 @@ async function postUser(req, res) {
   } = req.body;
   const user = await prisma.userInfo.create({
     data: {
-      UserName,
-      email,
-      password,
-      TranslatedText,
-      TextToBeTranslated,
+      UserName,email,password,TranslatedText,TextToBeTranslated,
     },
   });
   res.send(user);
 }
- async function Login (req, res) {
+async function Login(req, res) {
   const { UserName, password } = req.body;
   try {
     const user = await prisma.userInfo.findUnique({
       where: {
-        UserName: UserName
-      }
+        UserName: UserName,
+      },
     });
 
     if (!user) {
-      res.status(404).send('User not found');
+      res.status(404).send("User not found");
       return;
     }
 
     if (user.password !== password) {
-      res.status(401).send('Incorrect password');
+      res.status(401).send("Incorrect password");
       return;
     }
-    res.status(200).send('Login successful');
+    res.status(200).send("Login successful");
   } catch (error) {
-        res.status(500).send('Failed to login');
+    res.status(500).send("Failed to login");
   }
 }
-
 
 async function updateUser(req, res) {
   const {
@@ -95,5 +90,5 @@ export const controller = {
   postUser,
   updateUser,
   deleteUserById,
-  Login
+  Login,
 };

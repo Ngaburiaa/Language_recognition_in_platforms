@@ -1,10 +1,15 @@
-import React, { useState } from "react";
-// import FileUploader from "../FileUpload";
+import React, { useState, useEffect } from "react";
 
 function ElementsComponents({ transcript }) {
   const [textToBeTranslated, setTextToBeTranslated] = useState("");
   const [translatedText, setTranslatedText] = useState("");
   const [targetLanguage, setTargetLanguage] = useState("en");
+
+  useEffect(() => {
+    if (!textToBeTranslated) {
+      setTextToBeTranslated(transcript);
+    }
+  }, [transcript]);
 
   const translateText = () => {
     const myHeaders = new Headers();
@@ -32,9 +37,7 @@ function ElementsComponents({ transcript }) {
   };
 
   const handleTextChange = (e) => {
-     
-    setTextToBeTranslated( e.target.value);
-  
+    setTextToBeTranslated(e.target.value);
   };
 
   const handleLanguageChange = (e) => {
@@ -55,6 +58,7 @@ function ElementsComponents({ transcript }) {
     document.body.appendChild(element);
     element.click();
   };
+
   const shareText = () => {
     if (navigator.share) {
       navigator
@@ -82,13 +86,14 @@ function ElementsComponents({ transcript }) {
           id="textArea"
           rows="10"
           cols="50"
-          value={textToBeTranslated || transcript}
+          value={textToBeTranslated}
           onChange={handleTextChange}
         ></textarea>
+        <button className="Translate" onClick={translateText}>
+          <i className="fa fa-language" aria-hidden="true"></i>Translate
+        </button>
       </div>
-      <button className="Translate" onClick={translateText}>
-        <i className="fa fa-language" aria-hidden="true"></i>Translate
-      </button>
+
       <br />
       <div className="translatedText">
         <select

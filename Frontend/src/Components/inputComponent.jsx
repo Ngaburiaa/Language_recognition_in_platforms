@@ -2,20 +2,23 @@ import React, { useState } from "react";
 import ElementsComponents from "./ElementsComponent/ElementsComponents";
 import AudioRecorder from "./speechComponent";
 import FileUploader from "./FileUpload";
-// import { Link } from "react-router-dom";
 
 function InputComponent() {
-  const [transcript, setTranscript] = useState("");
-  const [isTranscribing, setIsTranscribing] = useState(false);
+const [transcript, setTranscript] = useState("");
+const [isTranscribing, setIsTranscribing] = useState(false);
+ const local= JSON.parse(localStorage.getItem("UserName"))
+
 
   return (
+ 
     <div className="inputFiled">
+      <p style={{fontSize:"1.69em",fontWeight:"700"}}>Welcome {local}</p>
+      
       <FileUploader
         setTranscript={setTranscript}
-        isTranscribing={isTranscribing}
         setIsTranscribing={setIsTranscribing}
       />
-      <ElementsComponents transcript={transcript} />
+      <ElementsComponents transcript={transcript} setTranscript={setTranscript} />
       <AudioRecorder
         transcript={transcript}
         setTranscript={setTranscript}

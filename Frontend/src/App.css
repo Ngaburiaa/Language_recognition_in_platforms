@@ -4,6 +4,10 @@
   padding: 2rem;
   text-align: center;
   background-color: antiquewhite;
+  /* background-image:url( "https://media.istockphoto.com/id/151811087/photo/crowd-reaching-for-globe.jpg?s=612x612&w=0&k=20&c=gfBo3ZOtyyaCB3Qb37Cbt12hQ4Y4IOwYybpSecajiiA="); */
+  background-repeat: no-repeat;
+  background-size: cover;
+
 }
 
 
@@ -13,8 +17,8 @@
   border-radius: 20px;
   color: white;
   position: absolute;
-  left:400px;
-  bottom: 220px;
+  right:20px;
+  bottom: 100px;
   padding: 5px;
 
 }
@@ -33,19 +37,156 @@
 .textArea{
   display: flex;
   flex-direction: row;
+  /* background-color: antiquewhite; */
   
+} 
+.login{
+    background: white;
+    padding: 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center; 
 }
-/* .inputFiled{
-  display: flex;
-  flex-direction: row;
-} */
+
+.LoginContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+}
+
+.LoginContainer label{
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #555;
+}
+.LoginContainer p{
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #333;
+    a {
+      color: #667eea;
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+}
+.LoginContainer button{
+    width: 100%;
+    padding: 0.75rem;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    &:hover {
+      background: #556cd6;
+    }
+}
+
+.LoginContainer input{
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    &:focus {
+      border-color: #667eea;
+      outline: none;
+    }
+}
+
+.SignContainer{
+  display: grid;
+justify-content: space-between;
+  height: 100vh;
+  width: 100vw;
+ 
+ 
+}
 
 
+.SignContainer form{
+    background: rgb(190, 179, 179);
+    padding: 3rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+.SignContainer h1{
+    margin-bottom: -15rem;
+    font-size: 1.5rem;
+    color:blue;
+      
+}
+
+.SignContainer label{
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #555;
+}
+
+.SignContainer input{
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    &:focus {
+      border-color: #43cea2;
+      outline: none;
+    }
+}
+
+.SignContainer button{
+    width: 100%;
+    padding: 0.75rem;
+    background: #43cea2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    &:hover {
+      background: #36b8a1;
+    }
+}
+
+.SignContainer p{
+    margin-top: 0rem;
+    font-size: 1rem;
+    color: #333;
+    a {
+      color: #43cea2;
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+}
+.errorMessage{
+    color: red;
+    margin-bottom: 1rem;
+}
  textarea{
   border-radius: 10px;
   border: 10px solid rgb(143, 201, 170);
   background-color: rgb(37, 10, 10);
   color: white;
+ 
  }
  select{
   margin-top: -200px;
@@ -80,7 +221,6 @@
  input{
   width: 150px;
   justify-content: center;
-  margin: 10px;
   border-radius: 5px;
   
  }
@@ -88,4 +228,121 @@
  label{
   font-size: 1.5em;
   font-weight: 500;
+ }
+ .homeSign{
+  padding: 10px;
+  background-color: aqua;
+  border-radius: 10px;
+  margin-right: 20px;
+ }
+
+ .homeLog{
+padding: 10px;
+background-color: aqua;
+border-radius: 10px;
+ }
+
+
+
+ body {
+     font-family: Arial, sans-serif;
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+     color: #333;
+ }
+ header {
+     background: #333;
+     color: white;
+     padding: 1rem 0;
+ }
+ .container {
+     width: 80%;
+     margin: 0 auto;
+     max-width: 1200px;
+ }
+ nav ul {
+     list-style: none;
+     padding: 0;
+ }
+ nav ul li {
+     display: inline;
+     margin-right: 1rem;
+ }
+ nav ul li link {
+     color: white;
+     text-decoration: none;
+     font-weight: bold;
+ }
+ .hero {
+     background: url('https://images.unsplash.com/photo-1489549132488-d00b7eee80f1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D') no-repeat center center/cover;
+     color: white;
+     text-align: center;
+     padding: 4rem 0;
+ }
+ .hero h1 {
+     font-size: 3rem;
+     margin: 0;
+ }
+ .hero p {
+     font-size: 1.2rem;
+     margin: 1rem 0;
+ }
+ .btn {
+     padding: 1rem 2rem;
+     text-decoration: none;
+     font-weight: bold;
+     border-radius: 5px;
+ }
+ .btn.primary {
+     background: #007bff;
+     color: white;
+ }
+ .btn.secondary {
+     background: #6c757d;
+     color: white;
+ }
+ .introduction, .features, .how-it-works, .call-to-action, .testimonials {
+     padding: 4rem 0;
+ }
+ .features .feature-blocks, .how-it-works .steps, .testimonials .testimonial-blocks {
+     display: flex;
+     flex-wrap: wrap;
+     gap: 2rem;
+ }
+ .features .feature, .how-it-works .step, .testimonials .testimonial {
+     flex: 1 1 calc(33.333% - 2rem);
+     background: #f8f9fa;
+     padding: 2rem;
+     border-radius: 5px;
+     text-align: center;
+ }
+ .features .feature img, .how-it-works .step img, .testimonials .testimonial img {
+     max-width: 100px;
+     margin-bottom: 1rem;
+ }
+ .call-to-action {
+     background: #007bff;
+     color: white;
+     text-align: center;
+ }
+ footer {
+     background: #333;
+     color: white;
+     padding: 2rem 0;
+ }
+ footer .quick-links, footer .social-media, footer .contact-info {
+     display: flex;
+     justify-content: space-between;
+ }
+ footer ul {
+     list-style: none;
+     padding: 0;
+ }
+ footer ul li {
+     margin-bottom: 0.5rem;
+ }
+ footer ul li a {
+     color: white;
+     text-decoration: none;
  }
